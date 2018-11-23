@@ -42,7 +42,7 @@ server.post("/api/exercise/new-exercise/", (req, res) => {
     userId: data.userId,
     description: data.description,
     duration: data.duration,
-    date: Date(data.date)
+    date: new Date(data.date)
   })
     .then(data => res.status(201).json(data))
     .catch(error => res.status(500).json({ error }));
@@ -63,7 +63,7 @@ server.get("/api/exercise/users", (req, res) => {
 });
 
 // Show Exercises
-// TEST: http://localhost:5000/api/exercise/logs/
+// TEST: https://exercise-tracker-backend.herokuapp.com/api/exercise/logs/
 server.get("/api/exercise/logs/", (req, res) => {
   Exercise.find()
     .populate()
@@ -80,26 +80,28 @@ server.get("/api/exercise/logs/", (req, res) => {
 
 // Query One Exercise Log
 // To select specific User:
-// TEST: http://localhost:5000/api/exercise/log?userId=5bf6ea832cf3e6b697ed7bc6
+// TEST: https://exercise-tracker-backend.herokuapp.com/api/exercise/log?userId=5bf7a334e52b0900047f60ec
 // To simply return all logs:
-// TEST: http://localhost:5000/api/exercise/log/
+// TEST: https://exercise-tracker-backend.herokuapp.com/api/exercise/log/
 // To set limit:
-// TEST: http://localhost:5000/api/exercise/log?limit=1
+// TEST: https://exercise-tracker-backend.herokuapp.com/api/exercise/log?userId=5bf7a334e52b0900047f60ec&limit=1
+// To set `to` and `from`
+https://exercise-tracker-backend.herokuapp.com/api/exercise/log?userId=5bf7a334e52b0900047f60ec&from=2018-09-09&to=2018-11-23
 
 server.get("/api/exercise/log/", (req, res) => {
   const userId = req.query.userId;
-  const from = req.query.from;
-  const to = req.query.to;
+  const from = new Date(req.query.from);
+  const to = new Date(req.query.to);
   const limit = Number(req.query.limit);
   // const queryArr = [userId, from, to, limit];
   // console.log(`{userId: ${userId}, from: ${from}, to: ${to}, limit: ${limit}}`);
   let query = Exercise.find({ userId: userId });
 
-  // Test: http://localhost:5000/api/exercise/log?from=1987-09-09
+  // Test: https://exercise-tracker-backend.herokuapp.com/api/exercise/log?from=1987-09-09
   if (from) {
     query.where("date").gte(from);
   }
-  // Test: http://localhost:5000/api/exercise/log?to=2018-09-09
+  // Test: https://exercise-tracker-backend.herokuapp.com/api/exercise/log?to=2018-09-09
   if (to) {
     query.where("date").lte(to);
   }
