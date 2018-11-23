@@ -90,8 +90,8 @@ https://exercise-tracker-backend.herokuapp.com/api/exercise/log?userId=5bf7a334e
 
 server.get("/api/exercise/log/", (req, res) => {
   const userId = req.query.userId;
-  const from = new Date(req.query.from);
-  const to = new Date(req.query.to);
+  const from = req.query.from;
+  const to = req.query.to;
   const limit = Number(req.query.limit);
   // const queryArr = [userId, from, to, limit];
   // console.log(`{userId: ${userId}, from: ${from}, to: ${to}, limit: ${limit}}`);
@@ -99,11 +99,11 @@ server.get("/api/exercise/log/", (req, res) => {
 
   // Test: https://exercise-tracker-backend.herokuapp.com/api/exercise/log?from=1987-09-09
   if (from) {
-    query.where("date").gte(from);
+    query.where("date").gte(new Date(from));
   }
   // Test: https://exercise-tracker-backend.herokuapp.com/api/exercise/log?to=2018-09-09
   if (to) {
-    query.where("date").lte(to);
+    query.where("date").lte(new Date(to));
   }
 
   query
