@@ -3,7 +3,7 @@ const express = require("express");
 const server = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
-require("dotenv").config(); // remove in prod
+// require("dotenv").config(); // remove in prod
 const User = require("./models/User");
 const Exercise = require("./models/Exercise");
 
@@ -13,7 +13,7 @@ server.use(cors());
 
 // CONNECT to DATABASE
 mongoose.connect(
-  process.env.MONGO_URI,
+  process.env.MONGODB_URI,
   { useNewUrlParser: true }
 );
 
