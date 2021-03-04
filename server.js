@@ -14,7 +14,7 @@ server.use(cors());
 // CONNECT to DATABASE
 mongoose.connect(
   process.env.MONGODB_URI,
-  { useNewUrlParser: true }
+  { useNewUrlParser: true, useUnifiedTopology: true }
 );
 
 // INTIAL TESTER GET
